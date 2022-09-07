@@ -1,24 +1,26 @@
-﻿# pragma once
-# include <Siv3D.hpp>
-# include "GameObject.cpp"
+﻿
+# include "GameObjectPlayer.hpp"
 
 namespace MyGame {
 
 	class Player : DynamicObject {
-	private:
-		int16 jumpMax;
-		Vec2 Gravity;
-		Texture texture;
 	public:
 		Player() {
 			init();
 		}
 		void init() {
 			jumpMax = 2;
+			fallMaxSpeed = 8;
+			keyJump = KeyZ;
 		}
 		void update() override {
 			Velocity += Gravity;
+			Clamp(Velocity.y, -fallMaxSpeed, fallMaxSpeed);
 			position += Velocity;
+			if (keyJump.down()) {
+				Print << U"Jump2";
+				Velocity.y = -jumpPower;
+			}
 		}
 		void isHit(GmaeObjectNode node) override {
 

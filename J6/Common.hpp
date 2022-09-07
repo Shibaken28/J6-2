@@ -1,8 +1,6 @@
 ﻿# pragma once
 # include <Siv3D.hpp>
-# include "GameObject.cpp"
-# include "GameObjectPlayer.cpp"
-# include "GameManager.cpp"
+# include "GameObjects.cpp"
 
 // シーンの名前
 enum class State

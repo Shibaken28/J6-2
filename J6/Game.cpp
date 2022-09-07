@@ -4,7 +4,6 @@ Game::Game(const InitData& init)
 	: IScene{ init }
 {
 	gameManager = new MyGame::GameManager();
-	Print << U"af";
 }
 
 void Game::update()
