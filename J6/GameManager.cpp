@@ -8,6 +8,7 @@ namespace MyGame{
 		int16 chipSizeInt;
 		Size chipSize;
 		Array<GameObject*> gameObjects;
+		Camera2D camera{ Vec2{ 0, 0 }, 1.0 };
 	public:
 		FieldMap* fieldMap;
 		GameManager() {
@@ -45,15 +46,23 @@ namespace MyGame{
 			addNeedle(Vec2(5, 6), 0);
 			addNeedle(Vec2(6.5f, 6.5f),Size(32,32), 0);
 			addNeedle(Vec2(10, 5), 0);
+			for (int i = 0; i < 1000; i++) {
+				addNeedle(Vec2(i*0.1f, 9-i*i*0.0001), i*4);
+			}
 		}
 		void draw() const{
-			player->draw();
-			fieldMap->draw();
-			for (auto& obs : gameObjects) {
-				obs->draw();
+			{
+				const auto t = camera.createTransformer();
+				player->draw();
+				fieldMap->draw();
+				for (auto& obs : gameObjects) {
+					obs->draw();
+				}
 			}
 		}
 		void update() {
+			camera.update();
+			camera.jumpTo(player->position,1.0f);
 			for (auto& obs : gameObjects) {
 				obs->update();
 				player->isHit(obs->getNode());

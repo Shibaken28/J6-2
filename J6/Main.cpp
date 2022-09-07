@@ -21,6 +21,8 @@ void Main()
 	// ゲームシーンから開始したい場合はこのコメントを外す
 	manager.init(State::Game);
 
+	Window::SetTitle(Profiler::FPS());
+
 	while (System::Update())
 	{
 		if (not manager.update())
