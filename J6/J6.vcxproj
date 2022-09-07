@@ -115,9 +115,9 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameObjectPlayer.cpp" />
-    <ClCompile Include="GameObjects.cpp" />
+    <ClCompile Include="GameObjects.cpp">
+      <ScanSourceForModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ScanSourceForModuleDependencies>
+    </ClCompile>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -321,9 +321,6 @@
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
     <ClInclude Include="Game.hpp" />
-    <ClInclude Include="GameManager.hpp" />
-    <ClInclude Include="GameObject.hpp" />
-    <ClInclude Include="GameObjectPlayer.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Title.hpp" />
   </ItemGroup>

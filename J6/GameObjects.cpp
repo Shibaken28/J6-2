@@ -47,15 +47,16 @@ namespace MyGame {
 		}
 		void init() {
 			jumpMax = 2;
-			fallMaxSpeed = 8;
+			fallMaxSpeed = 16;
 			keyJump = KeyZ;
+			jumpPower = 16;
 		}
 		void update() override {
 			Velocity += Gravity;
-			Clamp(Velocity.y, -fallMaxSpeed, fallMaxSpeed);
+			if (Velocity.y > fallMaxSpeed)Velocity.y = fallMaxSpeed;
 			position += Velocity;
+			Print <<U"Speed" << Velocity;
 			if (keyJump.down()) {
-				Print << U"Jump2";
 				Velocity.y = -jumpPower;
 			}
 		}
@@ -104,29 +105,5 @@ namespace MyGame {
 		Grid<Field> map;
 
 	};
-
-
-	class GameManager {
-	private:
-		Player* player;
-	public:
-		GameManager() {
-			init();
-		}
-		void init() {
-			player = new Player();
-			player->setSize(Size(32, 32));
-			player->setPosition(Vec2(32, 32));
-			player->setTexture(TextureAsset(U"MrJ"));
-			player->setGravity(Vec2(0, -0.8f));
-		}
-		void draw() const {
-			player->draw();
-		}
-		void update() {
-			player->update();
-		}
-	};
-
 
 }

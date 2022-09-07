@@ -1,6 +1,7 @@
 ﻿# pragma once
 # include <Siv3D.hpp>
 # include "GameObjects.cpp"
+# include "GameManager.cpp"
 
 // シーンの名前
 enum class State
@@ -14,6 +15,7 @@ struct GameData
 {
 	// 直前のゲームのスコア
 	Optional<int32> lastGameScore;
+
 
 	// ハイスコア
 	Array<int32> highScores = { 50, 40, 30, 20, 10 };
