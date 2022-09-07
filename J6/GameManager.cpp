@@ -36,11 +36,15 @@ namespace MyGame{
 			fieldMap->setBlock(7, 4);
 			fieldMap->setBlock(7, 3);
 			fieldMap->setBlock(7, 2);
-			fieldMap->setBlock(6, 2);
+			fieldMap->setBlock(7, 9);
+			fieldMap->setBlock(7, 10);
+			fieldMap->setBlock(6, 10);
+			fieldMap->setBlock(7, 11);
 			addNeedle(Vec2(4,6),0);
 			addNeedle(Vec2(4.5f, 5), 0);
 			addNeedle(Vec2(5, 6), 0);
 			addNeedle(Vec2(6.5f, 6.5f),Size(32,32), 0);
+			addNeedle(Vec2(10, 5), 0);
 		}
 		void draw() const{
 			player->draw();
@@ -52,6 +56,7 @@ namespace MyGame{
 		void update() {
 			for (auto& obs : gameObjects) {
 				obs->update();
+				player->isHit(obs->getNode());
 			}
 			player->update();
 			fieldMap->update();

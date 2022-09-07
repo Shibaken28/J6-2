@@ -5,11 +5,18 @@ namespace MyGame {
 
 
 	enum class GameObjectType :int16 {
-		Player
+		Player,Needle
 	};
+
+	using objectShape = std::variant<Triangle>;
 
 	struct GameObjectNode {
 		GameObjectType objectType;
+		Array<objectShape> shapes;
+		GameObjectNode(){}
+		GameObjectNode(GameObjectType type) {
+			objectType = type;
+		}
 	};
 
 
@@ -23,11 +30,18 @@ namespace MyGame {
 		virtual void draw() const = 0;
 	};
 
+
 	class DynamicObject : public GameObject {
 	public:
 		Vec2 position{ 0,0 };
 		Vec2 Velocity{ 0,0 };
 		Size size{ 64,64 };
+		Vec2 Center() {
+			return position + size / 2;
+		}
+		Rect rect() {
+			return Rect(position.asPoint(),size);
+		}
 
 	};
 
@@ -53,10 +67,21 @@ namespace MyGame {
 			return false;
 		}
 		GameObjectNode getNode() override {
-			return GameObjectNode();
+			GameObjectNode node(GameObjectType::Needle);
+			Vec2 p0 = rect().topCenter() - Center();
+			Vec2 p1 = rect().br() - Center();
+			Vec2 p2 = rect().bl() - Center();
+			p0.rotate(degree * (1_deg));
+			p1.rotate(degree * (1_deg));
+			p2.rotate(degree * (1_deg));
+			p0.moveBy(position+size/2);
+			p1.moveBy(position + size / 2);
+			p2.moveBy(position + size / 2);
+			//Print
+			node.shapes.push_back(Triangle(p0, p1, p2));
+			return node;
 		}
 		void draw() const override {
-			Print << degree;
 			texture.resized(size).rotated(degree * (1_deg)).draw(position);
 		}
 		void update() override {
@@ -81,11 +106,13 @@ namespace MyGame {
 		Vec2 prePosition;
 		double jumpPower;
 		double moveSpeed;
+		bool deathRequest;
 	public:
 		Player() {
 			init();
 		}
 		void init() {
+			deathRequest = false;
 			jumpMax = 2;
 			fallMaxSpeed = 16*60;
 			keyJump = KeyZ;
@@ -96,6 +123,9 @@ namespace MyGame {
 			moveSpeed = 6*60;
 		}
 		void update() override {
+			if (deathRequest) {
+				death();
+			}
 			prePosition = position;
 			jump();
 			move();
@@ -104,6 +134,11 @@ namespace MyGame {
 			position += (preVelocity + Velocity) * Scene::DeltaTime() / 2;
 			position = position.asPoint();
 			if (Velocity.y > fallMaxSpeed)Velocity.y = fallMaxSpeed;
+		}
+		void death(){
+			deathRequest = false;
+			rect().draw(ColorF(1,0,0));
+			//position = Vec2(100,100);
 		}
 		void jump() {
 			if (keyJump.down()) {
@@ -125,6 +160,14 @@ namespace MyGame {
 			}
 		}
 		bool isHit(GameObjectNode node) override {
+			//プレイヤーとnodeの当たり判定
+			//針
+			if (node.objectType == GameObjectType::Needle) {
+				Triangle triangle= std::get<Triangle>(node.shapes[0]);
+				if (rect().stretched(-1).intersects(triangle)) {
+					deathRequest = true;
+				}
+			}
 			return false;
 		}
 		GameObjectNode getNode() override {
@@ -186,9 +229,6 @@ namespace MyGame {
 			setTexture(TextureAsset(U"Block"));
 		}
 		bool isHit(GameObjectNode node) override {
-			if (node.objectType == GameObjectType::Player) {
-
-			}
 			return false;
 		}
 		GameObjectNode getNode() override {
