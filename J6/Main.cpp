@@ -17,7 +17,6 @@ void Main()
 	manager.add<Title>(State::Title);
 	manager.add<Game>(State::Game);
 
-
 	// ゲームシーンから開始したい場合はこのコメントを外す
 	manager.init(State::Game);
 

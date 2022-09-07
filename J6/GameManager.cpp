@@ -5,8 +5,8 @@ namespace MyGame{
 	class GameManager {
 	private:
 		Player* player;
-		FieldMap* fieldMap;
 	public:
+		FieldMap* fieldMap;
 		GameManager() {
 			init();
 		}
@@ -23,6 +23,11 @@ namespace MyGame{
 			fieldMap->setBlock(6, 7);
 			fieldMap->setBlock(7, 7);
 			fieldMap->setBlock(7, 6);
+			fieldMap->setBlock(7, 5);
+			fieldMap->setBlock(7, 4);
+			fieldMap->setBlock(7, 3);
+			fieldMap->setBlock(7, 2);
+			fieldMap->setBlock(6, 2);
 		}
 		void draw() const{
 			player->draw();
@@ -31,6 +36,7 @@ namespace MyGame{
 		void update() {
 			player->update();
 			fieldMap->update();
+			fieldMap->wallResistance(*player);
 		}
 	};
 

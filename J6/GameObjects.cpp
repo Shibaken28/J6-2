@@ -3,6 +3,7 @@
 
 namespace MyGame {
 
+
 	enum class GameObjectType :int16 {
 		Player
 	};
@@ -23,7 +24,7 @@ namespace MyGame {
 	};
 
 	class DynamicObject : GameObject {
-	protected:
+	public:
 		Vec2 position{ 0,0 };
 		Vec2 Velocity{ 0,0 };
 		Size size{ 32,32 };
@@ -33,8 +34,8 @@ namespace MyGame {
 
 
 
-	class Player : DynamicObject {
-	private:
+	class Player : public DynamicObject {
+	public:
 		int16 jumpMax;
 		Vec2 Gravity;
 		Texture texture;
@@ -44,7 +45,6 @@ namespace MyGame {
 		Vec2 prePosition;
 		double jumpPower;
 		double moveSpeed;
-		double resistanceRatio;
 	public:
 		Player() {
 			init();
@@ -55,19 +55,19 @@ namespace MyGame {
 			keyJump = KeyZ;
 			keyRight = KeyRight;
 			keyLeft = KeyLeft;
-			jumpPower = 20*60;
-			Gravity = Vec2(0.0f, 1.4f*60*60);
-			moveSpeed = 10*60;
-			resistanceRatio = 0.9f;
+			jumpPower = 17*60;
+			Gravity = Vec2(0.0f, 1.0f*60*60);
+			moveSpeed = 5*60;
 		}
 		void update() override {
 			prePosition = position;
-			Vec2 preVelocity = Velocity;
-			Velocity += Gravity* Scene::DeltaTime();
-			position += (preVelocity + Velocity) * Scene::DeltaTime() / 2;
-			if (Velocity.y > fallMaxSpeed)Velocity.y = fallMaxSpeed;
 			jump();
 			move();
+			Velocity += Gravity * Scene::DeltaTime();
+			Vec2 preVelocity = Velocity;
+			position += (preVelocity + Velocity) * Scene::DeltaTime() / 2;
+			position = position.asPoint();
+			if (Velocity.y > fallMaxSpeed)Velocity.y = fallMaxSpeed;
 		}
 		void jump() {
 			if (keyJump.down()) {
@@ -78,10 +78,10 @@ namespace MyGame {
 					Velocity.y /= 2;
 				}
 			}
-			Velocity.x = 0;
 		}
 		void move() {
-			Velocity.x *= resistanceRatio;
+			//Velocity.x *= resistanceRatio;
+			Velocity.x = 0;
 			if (keyLeft.pressed()) {
 				Velocity.x -= moveSpeed;
 			}
@@ -110,11 +110,17 @@ namespace MyGame {
 		Vec2 getPosition() {
 			return position;
 		}
+		Vec2 getPrePosition() {
+			return prePosition;
+		}
 		Size getSize() {
 			return size;
 		}
 		void setTexture(Texture t) {
 			texture = t;
+		}
+		Vec2 deltaPos() {
+			return position - prePosition;
 		}
 	};
 
@@ -125,6 +131,8 @@ namespace MyGame {
 	protected:
 		Vec2 position;
 		Size size;
+	public:
+		virtual bool isWall() = 0;
 	};
 
 	class Block : public Field {
@@ -159,17 +167,97 @@ namespace MyGame {
 		void setTexture(Texture t) {
 			texture = t;
 		}
+		bool isWall() override{
+			return true;
+		}
 	};
 
 	class FieldMap {
 	private:
 		Grid<Field*>* map;
-		int16 chipSize ;
+		Size chipSize;
+		int16 chipSizeInt;
 	public:
 		FieldMap(int h,int w){
 			map = new Grid<Field*>(h,w,NULL);
-			chipSize = 64;
+			chipSize = Size(64,64);
+			chipSizeInt = 64;
 		}
+		bool isInRange(Point p) {
+			return 0 <= p.x && 0 <= p.y && p.x < map->width() && p.y < map->height();
+		}
+		void wallResistance(Player& player) {
+			auto delta = player.deltaPos().asPoint();
+			auto beginPos = player.getPrePosition().asPoint();
+			auto beginChip = beginPos / chipSize;
+			//移動先のチップ座標
+			auto fixed = player.getPrePosition().asPoint();
+
+			int dx = (delta.x>0?1:-1);
+			bool isCollisionX = false;
+			for (int x = 0; Abs(x) <= Abs(delta.x); x += dx) {
+				if (delta.x == 0)break;
+				fixed.moveBy(dx, 0);
+				Rect playerRect(fixed, player.getSize());
+				for (auto dcy : Range(-1, 1, 1)) {
+					for (auto dcx : Range(-1, 1, 1)) {
+						Point pos = beginChip + Point(dcx, dcy);
+						Rect chipRect(pos * chipSizeInt, chipSize);
+						if (not isInRange(pos))continue;
+						if ((*map)[pos.y][pos.x] == NULL)continue;
+						if (not (*map)[pos.y][pos.x]->isWall())continue;
+						if (chipRect.intersects(playerRect)) {
+							isCollisionX = true;
+							fixed.moveBy(-dx, 0);
+							break;
+						}
+					}
+					if (isCollisionX)break;
+				}
+				if (isCollisionX)break;
+			}
+			if (isCollisionX) {
+				player.Velocity.x = 0;
+			}
+
+			int dy =(delta.y>0?1:-1);
+			bool isCollisionY = false;
+			for (int y = 0; Abs(y) <= Abs(delta.y); y += dy) {
+				if (delta.y == 0)break;
+				fixed.moveBy(0, dy);
+				Rect playerRect(fixed, player.getSize());
+				for (auto dcy : Range(-1, 1, 1)) {
+					for (auto dcx : Range(-1, 1, 1)) {
+						Point pos = beginChip + Point(dcx, dcy);
+						Rect chipRect(pos * chipSizeInt, chipSize);
+						if (not isInRange(pos))continue;
+						if ((*map)[pos.y][pos.x] == NULL)continue;
+						if (not (*map)[pos.y][pos.x]->isWall())continue;
+						if (chipRect.intersects(playerRect)) {
+							isCollisionY = true;
+							fixed.moveBy(0, -dy);
+							break;
+						}
+					}
+					if (isCollisionY)break;
+				}
+				if (isCollisionY)break;
+			}
+			if (isCollisionY) {
+				player.Velocity.y = 0;
+			}
+			Print << fixed;
+			player.position = fixed;
+		}
+		
+		bool isInWall(Vec2 v) {
+			Point check = (v.asPoint() / chipSizeInt);
+			if (check.x < 0 || check.x >= map->width() || check.y<0 || check.y>map->height()) {
+				return false;
+			}
+			return (*map)[check.y][check.x] != NULL;
+		}
+
 		void draw() const {
 			for (auto y : step(map->height()))
 			{
@@ -191,9 +279,11 @@ namespace MyGame {
 			}
 		}
 		void setBlock(int h,int w) {
-			Print << h << w;
-			(*map)[h][w] = new Block(Vec2(h* chipSize,w* chipSize),Size(chipSize, chipSize));
+			(*map)[h][w] = new Block(Vec2(w* chipSizeInt,h* chipSizeInt), chipSize);
 		}
 	};
 
 }
+
+
+

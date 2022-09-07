@@ -9,6 +9,7 @@ Game::Game(const InitData& init)
 void Game::update()
 {
 	gameManager -> update();
+	//Print << gameManager -> fieldMap->isInWall(Cursor::PosF());
 }
 
 void Game::draw() const{
