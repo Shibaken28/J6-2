@@ -1,12 +1,14 @@
 ﻿# pragma once
 # include <Siv3D.hpp>
+# include "GameObject.cpp"
+# include "GameObjectPlayer.cpp"
+# include "GameManager.cpp"
 
 // シーンの名前
 enum class State
 {
 	Title,
 	Game,
-	Ranking,
 };
 
 // 共有するデータ

@@ -2,6 +2,12 @@
 # include "Title.hpp"
 # include "Game.hpp"
 
+
+void loadTexture() {
+	TextureAsset::Register(U"MrJ", U"img/MrJ.png");
+}
+
+
 void Main()
 {
 	FontAsset::Register(U"TitleFont", FontMethod::MSDF, 50, U"example/font/RocknRoll/RocknRollOne-Regular.ttf");
@@ -11,13 +17,14 @@ void Main()
 	FontAsset::Register(U"GameScore", 30, Typeface::Light);
 	AudioAsset::Register(U"Brick", GMInstrument::Woodblock, PianoKey::C5, 0.2s, 0.1s);
 
+	loadTexture();
+
 	App manager;
 	manager.add<Title>(State::Title);
 	manager.add<Game>(State::Game);
 
-
 	// ゲームシーンから開始したい場合はこのコメントを外す
-	//manager.init(State::Game);
+	manager.init(State::Game);
 
 	while (System::Update())
 	{
@@ -27,3 +34,4 @@ void Main()
 		}
 	}
 }
+

@@ -22,7 +22,7 @@ void Title::update()
 	else if (m_rankingButton.leftClicked())
 	{
 		// ランキングシーンへ
-		changeScene(State::Ranking);
+		//changeScene(State::Ranking);
 	}
 	else if (m_exitButton.leftClicked())
 	{
