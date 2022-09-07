@@ -6,6 +6,7 @@
 void loadTexture() {
 	TextureAsset::Register(U"MrJ", U"img/MrJ.png");
 	TextureAsset::Register(U"Block", U"img/Block.png");
+	TextureAsset::Register(U"Needle", U"img/Needle.png");
 }
 
 

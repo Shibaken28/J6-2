@@ -23,12 +23,48 @@ namespace MyGame {
 		virtual void draw() const = 0;
 	};
 
-	class DynamicObject : GameObject {
+	class DynamicObject : public GameObject {
 	public:
 		Vec2 position{ 0,0 };
 		Vec2 Velocity{ 0,0 };
-		Size size{ 32,32 };
+		Size size{ 64,64 };
 
+	};
+
+	class Needle : public DynamicObject {
+	public:
+		int16 degree;
+		Texture texture;
+		Needle(Vec2 pos, int deg) {
+			position = pos;
+			degree = deg;
+			init();
+		}
+		Needle(Vec2 pos,Size s, int deg) {
+			position = pos;
+			degree = deg;
+			size = s;
+			init();
+		}
+		void init() {
+			setTexture(TextureAsset(U"Needle"));
+		}
+		bool isHit(GameObjectNode node) override {
+			return false;
+		}
+		GameObjectNode getNode() override {
+			return GameObjectNode();
+		}
+		void draw() const override {
+			Print << degree;
+			texture.resized(size).rotated(degree * (1_deg)).draw(position);
+		}
+		void update() override {
+			
+		}
+		void setTexture(Texture t) {
+			texture = t;
+		}
 	};
 
 
@@ -57,7 +93,7 @@ namespace MyGame {
 			keyLeft = KeyLeft;
 			jumpPower = 17*60;
 			Gravity = Vec2(0.0f, 1.0f*60*60);
-			moveSpeed = 5*60;
+			moveSpeed = 6*60;
 		}
 		void update() override {
 			prePosition = position;
@@ -80,7 +116,6 @@ namespace MyGame {
 			}
 		}
 		void move() {
-			//Velocity.x *= resistanceRatio;
 			Velocity.x = 0;
 			if (keyLeft.pressed()) {
 				Velocity.x -= moveSpeed;
