@@ -1,6 +1,5 @@
 ﻿# pragma once
 # include <Siv3D.hpp>
-# include "GameObjects.cpp"
 # include "GameManager.cpp"
 
 // シーンの名前

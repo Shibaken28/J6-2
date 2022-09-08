@@ -5,7 +5,7 @@ namespace MyGame{
 	class GameManager {
 	private:
 		Player* player;
-		int16 chipSizeInt;
+		int chipSizeInt;
 		Size chipSize;
 		Array<GameObject*> gameObjects;
 		Camera2D camera{ Vec2{ 0, 0 }, 1.0 };
