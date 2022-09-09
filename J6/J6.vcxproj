@@ -322,7 +322,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
+    <ClInclude Include="EntityObject.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Title.hpp" />
   </ItemGroup>
