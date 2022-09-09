@@ -13,11 +13,11 @@ namespace MyGame {
 
 	using objectShape = std::variant<Triangle>;
 
-	struct GameObjectNode {
+	struct GameObjectHitNode {
 		GameObjectType objectType;
 		Array<objectShape> shapes;
-		GameObjectNode();
-		GameObjectNode(GameObjectType type);
+		GameObjectHitNode();
+		GameObjectHitNode(GameObjectType type);
 	};
 
 	class GameObject {

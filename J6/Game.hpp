@@ -13,6 +13,6 @@ public:
 	void draw() const override;
 
 private:
-	MyGame::GameManager* gameManager;
+	//MyGame::GameManager* gameManager;
 
 };
