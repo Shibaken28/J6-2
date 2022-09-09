@@ -4,6 +4,7 @@ namespace MyGame {
 	Player::Player() {
 		init();
 	}
+
 	void Player::init() {
 		deathRequest = false;
 		jumpMax = 2;
@@ -16,6 +17,7 @@ namespace MyGame {
 		moveSpeed = 6 * 60;
 		setTexture(TextureAsset(U"Mr.J"));
 	}
+
 	void Player::update(){
 		if (deathRequest) {
 			death();
@@ -27,10 +29,12 @@ namespace MyGame {
 		if (Velocity.y >= fallMaxSpeed)Velocity.y = fallMaxSpeed;
 		considerVelocity = ((preVelocity + Velocity) * Scene::DeltaTime() / 2).asPoint();
 	}
+
 	void Player::death() {
 		deathRequest = false;
 		//position = Vec2(100,100);
 	}
+
 	void Player::hitCheck(GameObjectHitNode &node){
 		//プレイヤーとnodeの当たり判定
 		//針
@@ -41,14 +45,21 @@ namespace MyGame {
 			}
 		}
 	}
+
 	GameObjectHitNode Player::getHitNode() {
 		return GameObjectHitNode();
 	}
+
 	void Player::draw() const{
 		Rect(position.asPoint(), size)(texture).draw();
 	}
+
 	void Player::setTexture(Texture t) {
 		texture = t;
+	}
+
+	void Player::jump() {
+
 	}
 }
 

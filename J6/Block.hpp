@@ -1,5 +1,6 @@
 ﻿# pragma once
-# include "Common.hpp"
+# include <Siv3D.hpp>
+# include "EntityObject.hpp"
 
 
 namespace MyGame {
@@ -7,12 +8,12 @@ namespace MyGame {
 	private:
 		Texture texture;
 	public:
+		Block();
+		Block(Vec2 , Size, int);
 		GameObjectHitNode getHitNode() override;
-		void hitCheck(GameObjectHitNode&) override;
+		void hitCheck(GameObjectHitNode&)override ;
 		void draw() const override;
 		void update() override;
-		Block();
-		Block(Vec2 v, Size s, int t = 0);
 		void setTexture(Texture t);
 		void init();
 	};

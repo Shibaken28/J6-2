@@ -4,6 +4,7 @@ namespace MyGame {
 	Block::Block() {
 		init();
 	}
+
 	Block::Block(Vec2 v, Size s, int t = 0) {
 		position = v;
 		size = s;
@@ -20,8 +21,12 @@ namespace MyGame {
 		setTexture(TextureAsset(U"Block"));
 	}
 
-	GameObjectHitNode getHitNode() {
+	GameObjectHitNode Block::getHitNode() {
 		return GameObjectHitNode();
+	}
+
+	void Block::hitCheck(GameObjectHitNode& gameObjectHitNode) {
+
 	}
 
 	void Block::draw() const {

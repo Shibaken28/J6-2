@@ -3,15 +3,15 @@
 Game::Game(const InitData& init)
 	: IScene{ init }
 {
-	//gameManager = new MyGame::GameManager();
+	gameManager = new MyGame::GameManager();
 }
 
 void Game::update()
 {
 	ClearPrint();
-	//gameManager -> update();
+	gameManager -> update();
 }
 
 void Game::draw() const{
-	//gameManager -> draw();
+	gameManager -> draw();
 }

@@ -1,6 +1,17 @@
 ﻿# pragma once
 # include <Siv3D.hpp>
-# include "AllGameObject.hpp"
+
+# include "GameObject.hpp"
+# include "EntityObject.hpp"
+
+# include "Player.hpp"
+# include "Needle.hpp"
+# include "Block.hpp"
+
+# include "FIeldMap.hpp"
+# include "GameManager.hpp"
+
+
 
 // シーンの名前
 enum class State

@@ -6,8 +6,6 @@ namespace MyGame {
 	void EntityObject::materialCheck(Array<EntityObject*>&) {
 		
 	}
-	void EntityObject::hitCheck(GameObjectHitNode&) {
-	}
 	void EntityObject::ApplyMove() {
 	}
 	Rect EntityObject::getRect() {

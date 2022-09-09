@@ -117,6 +117,8 @@
     <ClCompile Include="EntityObject.cpp" />
     <ClCompile Include="FieldMap.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Needle.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -219,7 +221,6 @@
     <None Include="App\engine\soundfont\GMGSx.sf2.zstdcmp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllGameObject.hpp" />
     <ClInclude Include="Block.hpp" />
     <ClInclude Include="Common.hpp" />
     <ClInclude Include="EntityObject.hpp" />

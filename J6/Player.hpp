@@ -1,6 +1,6 @@
 ﻿# pragma once
-# include "Common.hpp"
-
+# include <Siv3D.hpp>
+# include "EntityObject.hpp"
 
 namespace MyGame {
 	class Player : public EntityObject {

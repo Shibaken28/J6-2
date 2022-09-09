@@ -38,7 +38,7 @@ namespace MyGame {
 		return node;
 	}
 
-	void hitCheck(GameObjectHitNode& gameObjectHitNode){
+	void Needle::hitCheck(GameObjectHitNode& gameObjectHitNode){
 
 	}
 
