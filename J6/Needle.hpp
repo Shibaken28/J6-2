@@ -1,6 +1,7 @@
 ﻿# pragma once
 # include <Siv3D.hpp>
 # include "EntityObject.hpp"
+# include "Motion.hpp"
 
 namespace MyGame {
 	class Needle : public EntityObject {
@@ -9,7 +10,7 @@ namespace MyGame {
 	public:
 		int degree;
 		GameObjectHitNode getHitNode() override;
-		void hitCheck(GameObjectHitNode&)override;
+		void hitCheck(const GameObjectHitNode&)override;
 		void draw() const override;
 		void update() override;
 		Needle(Vec2 pos, int deg);

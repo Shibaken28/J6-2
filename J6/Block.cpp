@@ -5,19 +5,16 @@ namespace MyGame {
 		init();
 	}
 
-	Block::Block(Vec2 v, Size s, int t = 0) {
-		position = v;
+	Block::Block(Vec2 v, Size s) {
+		motion = new RoundMotion(v, Vec2(0, 50), 1);// new NonMotion(v);
 		size = s;
-		if (t > 500)Velocity.y = t - 500;
-		else Velocity.x = t;
-		if (t > 1000) {
-			Velocity.x = 400;
-			Velocity.y = 400;
-		}
 		init();
 	}
 
 	void Block::init() {
+		isRigid = true;
+		isFixed = true;
+		position = motion->getPos();
 		setTexture(TextureAsset(U"Block"));
 	}
 
@@ -25,16 +22,18 @@ namespace MyGame {
 		return GameObjectHitNode();
 	}
 
-	void Block::hitCheck(GameObjectHitNode& gameObjectHitNode) {
+	void Block::hitCheck(const GameObjectHitNode& gameObjectHitNode) {
 
 	}
 
 	void Block::draw() const {
-		Rect(position.asPoint(), size)(texture).draw();
+		Rect(position, size)(texture).draw();
 	}
 
 	void Block::update(){
-		considerVelocity = (Velocity * Scene::DeltaTime()).asPoint();
+		motion->move();
+		considerVelocity = motion->getDelta();
+		//considerVelocity = (Velocity * Scene::DeltaTime()).asPoint();
 	};
 
 	void Block::setTexture(Texture t) {

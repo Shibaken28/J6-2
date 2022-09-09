@@ -17,11 +17,10 @@ namespace MyGame {
 		Player();
 		void init();
 		GameObjectHitNode getHitNode() override;
-		void hitCheck(GameObjectHitNode&) override;
+		void hitCheck(const GameObjectHitNode&) override;
 		void update() override;
 		void draw() const override;
 		void death();
-		void jump();
 		void setTexture(Texture t);
 	};
 }

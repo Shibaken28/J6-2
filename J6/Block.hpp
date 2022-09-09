@@ -1,6 +1,7 @@
 ﻿# pragma once
 # include <Siv3D.hpp>
 # include "EntityObject.hpp"
+# include "Motion.hpp"
 
 
 namespace MyGame {
@@ -9,9 +10,9 @@ namespace MyGame {
 		Texture texture;
 	public:
 		Block();
-		Block(Vec2 , Size, int);
+		Block(Vec2 , Size);
 		GameObjectHitNode getHitNode() override;
-		void hitCheck(GameObjectHitNode&)override ;
+		void hitCheck(const GameObjectHitNode&)override ;
 		void draw() const override;
 		void update() override;
 		void setTexture(Texture t);

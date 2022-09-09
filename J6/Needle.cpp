@@ -2,20 +2,21 @@
 
 namespace MyGame {
 	Needle::Needle(Vec2 pos, int deg) {
-		position = pos;
+		motion = new NonMotion(pos);
 		degree = deg;
 		init();
 	}
 
 
 	Needle::Needle(Vec2 pos, Size s, int deg) {
-		position = pos;
+		motion = new NonMotion(pos);
 		degree = deg;
 		size = s;
 		init();
 	}
 
 	void Needle::init() {
+		position = motion->getPos();
 		setTexture(TextureAsset(U"Needle"));
 	}
 
@@ -38,7 +39,7 @@ namespace MyGame {
 		return node;
 	}
 
-	void Needle::hitCheck(GameObjectHitNode& gameObjectHitNode){
+	void Needle::hitCheck(const GameObjectHitNode& gameObjectHitNode){
 
 	}
 

@@ -2,6 +2,8 @@
 # include "GameObject.hpp"
 # include "Player.hpp"
 # include "FieldMap.hpp"
+# include "Needle.hpp"
+# include "Block.hpp"
 
 namespace MyGame {
 	class GameManager {
@@ -9,7 +11,7 @@ namespace MyGame {
 		Player *player;
 		int chipSizeInt;
 		Size chipSize;
-		Array<GameObject*> gameObjects;
+		Array<EntityObject*> gameObjects;
 		Camera2D camera{ Vec2{ 0, 0 }, 1.0 };
 	public:
 		FieldMap *fieldMap;

@@ -6,6 +6,7 @@ namespace MyGame {
 	}
 
 	void Player::init() {
+		isRigid = true;
 		deathRequest = false;
 		jumpMax = 2;
 		fallMaxSpeed = 64 * 60;
@@ -16,18 +17,15 @@ namespace MyGame {
 		Gravity = Vec2(0.0f, 1.0f * 60 * 60);
 		moveSpeed = 6 * 60;
 		setTexture(TextureAsset(U"Mr.J"));
+		motion = new PlayerMotion(position);
 	}
 
-	void Player::update(){
+	void Player::update() {
 		if (deathRequest) {
 			death();
 		}
-		jump();
-		//horizonMove();
-		Velocity += Gravity * Scene::DeltaTime();
-		Vec2 preVelocity = Velocity;
-		if (Velocity.y >= fallMaxSpeed)Velocity.y = fallMaxSpeed;
-		considerVelocity = ((preVelocity + Velocity) * Scene::DeltaTime() / 2).asPoint();
+		motion->move();
+		considerVelocity = motion->getDelta();
 	}
 
 	void Player::death() {
@@ -35,7 +33,7 @@ namespace MyGame {
 		//position = Vec2(100,100);
 	}
 
-	void Player::hitCheck(GameObjectHitNode &node){
+	void Player::hitCheck(const GameObjectHitNode &node){
 		//プレイヤーとnodeの当たり判定
 		//針
 		if (node.objectType == GameObjectType::Needle) {
@@ -51,15 +49,11 @@ namespace MyGame {
 	}
 
 	void Player::draw() const{
-		Rect(position.asPoint(), size)(texture).draw();
+		Rect(position, size)(texture).draw();
 	}
 
 	void Player::setTexture(Texture t) {
 		texture = t;
-	}
-
-	void Player::jump() {
-
 	}
 }
 
