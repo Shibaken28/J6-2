@@ -3,46 +3,26 @@
 
 namespace MyGame {
 
-	enum class GameObjectType :int16 {
-		Player
+	bool hasCommonRange(double l0, double r0, double l1, double r1);
+	bool isMovingRectHit(const Rect& rect0, const Point& var0, const Rect& rect1, const Point& var1, bool& isHitX, bool& isHitY, double& hitTime, Point& revert);
+	
+	enum class GameObjectType :int {
+		Player, Needle
 	};
 
-	struct GmaeObjectNode {
+	using objectShape = std::variant<Triangle>;
+
+	struct GameObjectHitNode {
 		GameObjectType objectType;
+		Array<objectShape> shapes;
+		GameObjectHitNode();
+		GameObjectHitNode(GameObjectType type);
 	};
-
 
 	class GameObject {
 	public:
-		bool isAlive;
-	public:
-		virtual void isHit(GmaeObjectNode) = 0;
 		virtual void update() = 0;
-		virtual GmaeObjectNode getNode() = 0;
-		virtual void draw() const = 0;
 	};
-
-	class DynamicObject : GameObject {
-	protected:
-		Vec2 position{ 0,0 };
-		Vec2 Velocity{ 0,0 };
-		Size size{ 32,32 };
-
-	};
-
-	class Field : GameObject {
-
-	};
-
-	class Block : Field {
-
-	};
-
-	class FieldMap {
-	public:
-		Grid<Field> map;
-
-	};
-
 
 }
+
