@@ -332,12 +332,7 @@ namespace MyGame {
 		Block(Vec2 v,Size s,int t=0) {
 			position = v;
 			size = s;
-			if(t>500)Velocity.y = t-500;
-			else Velocity.x = t;
-			if (t > 1000) {
-				Velocity.x = 400;
-				Velocity.y = 400;
-			}
+			Velocity.x = t;
 			stopwatch.start();
 			init();
 		};
@@ -356,10 +351,6 @@ namespace MyGame {
 		}
 		void update() override {
 			considerVelocity = (Velocity * Scene::DeltaTime()).asPoint();
-			if (stopwatch.sF() > 0.5) {
-				Velocity = -Velocity;
-				stopwatch.restart();
-			}
 		}
 		void setTexture(Texture t) {
 			texture = t;

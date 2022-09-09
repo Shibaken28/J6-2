@@ -20,11 +20,17 @@ namespace MyGame{
 			chipSize = Size(chipSizeInt, chipSizeInt);
 			player = new Player();
 			player->setSize(Size(32,32));
-			player->setPosition(Vec2(32, 32));
+			player->setPosition(Vec2(102, 32));
 			player->setTexture(TextureAsset(U"MrJ"));
 			fieldMap = new FieldMap(128,128);
-			
-			fieldMap->setBlock(6, 4,800);
+			fieldMap->setBlock(0, 0, 500);
+			fieldMap->setBlock(1, 0, 500);
+			fieldMap->setBlock(2, 0, 500);
+			fieldMap->setBlock(3, 0, 500);
+			fieldMap->setBlock(4, 0, 500);
+			fieldMap->setBlock(5, 0, 500);
+			fieldMap->setBlock(6, 0, 500);
+			fieldMap->setBlock(6, 4, 500);
 			fieldMap->setBlock(6, 5, 800);
 			//fieldMap->setBlock(5, 7);
 			fieldMap->setBlock(7, 8);
@@ -47,7 +53,7 @@ namespace MyGame{
 		}
 		void draw() const{
 			{
-				//const auto t = camera.createTransformer();
+				const auto t = camera.createTransformer();
 				player->draw();
 				fieldMap->draw();
 				for (auto& obs : gameObjects) {
