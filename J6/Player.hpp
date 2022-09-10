@@ -10,6 +10,7 @@ namespace MyGame {
 		double moveSpeed;
 		double jumpPower;
 		bool deathRequest;
+		bool isDead;
 	private:
 		Texture texture;
 		double fallMaxSpeed;

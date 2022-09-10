@@ -21,6 +21,7 @@ namespace MyGame {
 
 	class GameObject {
 	public:
+		Effect effect;
 		virtual void update() = 0;
 	};
 

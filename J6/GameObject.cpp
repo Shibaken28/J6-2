@@ -121,6 +121,5 @@ namespace MyGame {
 		objectType = type;
 	}
 
-
 }
 

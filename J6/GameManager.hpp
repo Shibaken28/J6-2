@@ -13,8 +13,9 @@ namespace MyGame {
 		Size chipSize;
 		Array<EntityObject*> gameObjects;
 		Array<int> trigger{128,0};
-		Camera2D camera{ Vec2{ 0, 0 }, 1.0 };
 	public:
+		Camera2D camera{ Vec2{ 0, 0 }, 1.0 };
+		Effect effect;
 		FieldMap *fieldMap;
 		GameManager();
 		void init();

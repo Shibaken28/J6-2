@@ -41,7 +41,7 @@ namespace MyGame {
 		jumpMax = 1;
 		jumpCount = jumpMax;
 		fallMaxSpeed = 64 * 60;
-		jumpPower = 20 * 60;
+		jumpPower = 18 * 60;
 		Gravity = Vec2(0.0f, 1.0f * 60 * 60);
 		moveSpeed = 6 * 60;
 	}

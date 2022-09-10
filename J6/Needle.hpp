@@ -25,7 +25,6 @@ namespace MyGame {
 		Texture texture;
 		Rect trigger;
 	public:
-		int degree;
 		void hitCheck(const GameObjectHitNode&)override;
 		TrollNeedle(Vec2 pos, Size s, int deg, Rect rect,Vec2 vel);
 	};

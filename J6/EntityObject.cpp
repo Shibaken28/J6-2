@@ -3,6 +3,7 @@
 
 namespace MyGame {
 	void EntityObject::materialCheck(Array<EntityObject*> &objects) {
+		if (not isAlive)return;
 		if (not isRigid) {
 			fixedPosition = position + considerVelocity;
 			return;
