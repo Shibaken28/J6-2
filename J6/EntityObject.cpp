@@ -15,6 +15,7 @@ namespace MyGame {
 		double hitTimeY = 100;
 		Point revert(0,0);
 		Point inertia(0,0);
+
 		for (auto& obj : objects) {
 			if (obj == this)continue;
 			if (not obj->isFixed)continue;
@@ -35,21 +36,23 @@ namespace MyGame {
 			if (considerVelocity.y > 0) {
 				if (Rect(position, size).moveBy(0, 1).intersects(obj->getRect())) {
 					considerVelocity.y = 0;
+
 					motion->stopY();
 					//considerVelocity += obj->considerVelocity;
 				}
 			}
 			if (considerVelocity.y < 0) {
 				if (Rect(position, size).moveBy(0, -1).intersects(obj->getRect())) {
-					considerVelocity.y = 0;
-					motion->stopY();
+					//considerVelocity.y = 0;
 					//considerVelocity += obj->considerVelocity;
 				}
 			}
+
 			if (Rect(position, size).moveBy(0, 1).intersects(obj->getRect()) && position.y < obj->position.y) {
 				if (inertia.isZero()) {
 					inertia = obj->considerVelocity;
 				}
+				motion->onFloor();
 			}
 			if (Rect(position, size).moveBy(1, 0).intersects(obj->getRect()) && obj->considerVelocity.x<0 ) {
 				if (inertia.isZero()) {

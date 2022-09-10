@@ -10,7 +10,7 @@ namespace MyGame {
 		Player, Needle
 	};
 
-	using objectShape = std::variant<Triangle>;
+	using objectShape = std::variant<Triangle,Rect>;
 
 	struct GameObjectHitNode {
 		GameObjectType objectType;

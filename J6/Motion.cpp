@@ -18,15 +18,13 @@ namespace MyGame {
 		return delta.asPoint();
 	}
 
-	void Motion::stopX() {
-
-	}
-	void Motion::stopY() {
-
-	}
+	void Motion::stopX() {}
+	void Motion::stopY() {}
+	void Motion::reset() {}
+	void Motion::onFloor() {}
+	void Motion::triggered() {}
 
 	void Motion::setPos(Vec2 v) {
-		Print << v;
 		pos = v;
 	}
 
@@ -36,17 +34,12 @@ namespace MyGame {
 
 	};
 
-	void NonMotion::stopX() {
-	}
-
-	void NonMotion::stopY() {
-	}
-
 	PlayerMotion::PlayerMotion(Vec2 v) :Motion(v){
 		jumpKey = KeyZ;
 		leftKey = KeyLeft;
 		rightKey = KeyRight;
-		jumpMax = 2;
+		jumpMax = 1;
+		jumpCount = jumpMax;
 		fallMaxSpeed = 64 * 60;
 		jumpPower = 20 * 60;
 		Gravity = Vec2(0.0f, 1.0f * 60 * 60);
@@ -56,8 +49,9 @@ namespace MyGame {
 	void PlayerMotion::move() {
 		Vec2 preVelocity = velocity;
 		velocity += Gravity * Scene::DeltaTime();
-		if (jumpKey.down()) {
+		if (jumpKey.down() && jumpCount>0) {
 			velocity.y = -jumpPower;
+			jumpCount--;
 		}
 		if(jumpKey.up()) {
 			if (velocity.y < 0) {
@@ -82,6 +76,14 @@ namespace MyGame {
 		velocity.y = 0;
 	}
 
+	void PlayerMotion::reset() {
+		jumpCount = jumpMax;
+		velocity.x = 0; velocity.y = 0;
+	}
+
+	void PlayerMotion::onFloor() {
+		jumpCount = jumpMax;
+	}
 
 	RoundMotion::RoundMotion(Vec2 v, Vec2 d, double t) :Motion(v) {
 		this->p1 = v;
@@ -93,17 +95,19 @@ namespace MyGame {
 	void RoundMotion::move() {
 		Vec2 nextPos = p1 + d * Periodic::Triangle0_1(roundTime*1s);
 		delta = nextPos - pos;
-		//Print << pos << U" " << nextPos << U" " << delta;
-		//pos = nextPos;
 	}
 
-	void RoundMotion::stopX() {
-
+	TriggerMotion::TriggerMotion(Vec2 v, Vec2 ve) {
+		pos = v;
+		velocity = ve;
 	}
 
-	void RoundMotion::stopY() {
-
+	void TriggerMotion::move() {
+		if (isTriggered)delta = velocity * Scene::DeltaTime();
 	}
 
+	void TriggerMotion::triggered() {
+		isTriggered = true;
+	}
 }
 

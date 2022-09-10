@@ -12,8 +12,12 @@ namespace MyGame {
 		virtual void move() = 0;
 		Point getPos();
 		Point getDelta();
-		virtual void stopX() = 0;
-		virtual void stopY() = 0;
+		virtual void stopX();
+		virtual void stopY();
+		virtual void reset();
+		virtual void onFloor();
+		virtual void triggered();
+		
 		void setPos(Vec2 v);
 	};
 
@@ -21,8 +25,6 @@ namespace MyGame {
 	public:
 		NonMotion(Vec2 v);
 		void move() override;
-		void stopX() override;
-		void stopY() override;
 	};
 	
 	class PlayerMotion : public Motion {
@@ -32,12 +34,15 @@ namespace MyGame {
 		double jumpPower;
 		double fallMaxSpeed;
 		Vec2 velocity{0,0};
-		int jumpMax;
+		int jumpMax ;
+		int jumpCount;
 		Vec2 Gravity;
 		PlayerMotion(Vec2 v);
 		void move() override;
 		void stopX() override;
+		void reset() override;
 		void stopY() override;
+		void onFloor() override;
 	};
 
 	class RoundMotion : public Motion {
@@ -47,8 +52,15 @@ namespace MyGame {
 	public:
 		RoundMotion(Vec2 p1,Vec2 d, double t);
 		void move() override;
-		void stopX() override;
-		void stopY() override;
 	};
 
+
+	class TriggerMotion : public Motion {
+		Vec2 velocity{ 0,0 };
+		bool isTriggered=false;
+	public:
+		TriggerMotion(Vec2 v,Vec2 ve);
+		void move() override;
+		void triggered() override;
+	};
 }

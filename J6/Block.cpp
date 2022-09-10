@@ -6,7 +6,7 @@ namespace MyGame {
 	}
 
 	Block::Block(Vec2 v, Size s) {
-		motion = new RoundMotion(v, Vec2(0, 50), 1);// new NonMotion(v);
+		motion = new NonMotion(v);
 		size = s;
 		init();
 	}

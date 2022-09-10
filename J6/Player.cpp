@@ -30,7 +30,8 @@ namespace MyGame {
 
 	void Player::death() {
 		deathRequest = false;
-		//position = Vec2(100,100);
+		motion->reset();
+		motion->setPos(position);
 	}
 
 	void Player::hitCheck(const GameObjectHitNode &node){
@@ -45,7 +46,9 @@ namespace MyGame {
 	}
 
 	GameObjectHitNode Player::getHitNode() {
-		return GameObjectHitNode();
+		GameObjectHitNode node(GameObjectType::Player);
+		node.shapes.push_back(getRect());
+		return node;
 	}
 
 	void Player::draw() const{

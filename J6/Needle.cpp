@@ -1,6 +1,9 @@
 ﻿# include "Needle.hpp"
 
 namespace MyGame {
+	Needle::Needle() {
+	}
+
 	Needle::Needle(Vec2 pos, int deg) {
 		motion = new NonMotion(pos);
 		degree = deg;
@@ -16,11 +19,15 @@ namespace MyGame {
 	}
 
 	void Needle::init() {
+		isRigid = false;
+		isFixed = false;
 		position = motion->getPos();
 		setTexture(TextureAsset(U"Needle"));
 	}
 
 	void Needle::update(){
+		motion->move();
+		considerVelocity = motion->getDelta();
 
 	}
 
@@ -39,8 +46,8 @@ namespace MyGame {
 		return node;
 	}
 
-	void Needle::hitCheck(const GameObjectHitNode& gameObjectHitNode){
-
+	void Needle::hitCheck(const GameObjectHitNode& node){
+		
 	}
 
 	void Needle::setTexture(Texture t) {
@@ -49,6 +56,23 @@ namespace MyGame {
 
 	void Needle::draw() const{
 		texture.resized(size).rotated(degree * (1_deg)).draw(position);
+	}
+
+	TrollNeedle::TrollNeedle(Vec2 pos, Size s, int deg,Rect rect,Vec2 vel) {
+		motion = new TriggerMotion(pos, vel);
+		degree = deg;
+		size = s;
+		trigger = rect;
+		Needle::init();
+	}
+
+	void TrollNeedle::hitCheck(const GameObjectHitNode& node) {
+		if (node.objectType == GameObjectType::Player) {
+			Rect rect = std::get<Rect>(node.shapes[0]);
+			if (trigger.intersects(rect)) {
+				motion->triggered();
+			}
+		}
 	}
 }
 
